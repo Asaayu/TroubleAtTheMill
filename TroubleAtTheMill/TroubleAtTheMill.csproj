@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TroubleAtTheMill</RootNamespace>
     <AssemblyName>TroubleAtTheMill</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,21 +50,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HearthDb">
-      <HintPath>..\..\..\Users\bozu\Desktop\Hearthstone Deck Tracker\HearthDb.dll</HintPath>
+      <HintPath>C:\Users\wowsi\AppData\Local\HearthstoneDeckTracker\app-1.20.2\HearthDb.dll</HintPath>
     </Reference>
-    <Reference Include="Hearthstone Deck Tracker">
-      <HintPath>..\..\..\Users\bozu\Desktop\Hearthstone Deck Tracker\Hearthstone Deck Tracker.exe</HintPath>
+    <Reference Include="HearthstoneDeckTracker">
+      <HintPath>C:\Users\wowsi\AppData\Local\HearthstoneDeckTracker\app-1.20.2\HearthstoneDeckTracker.exe</HintPath>
     </Reference>
+    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
@@ -71,19 +70,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FatigueCalculator.cs" />
-    <Compile Include="FatigueDisplay.xaml.cs">
-      <DependentUpon>FatigueDisplay.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FatiguePlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Page Include="FatigueDisplay.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(ProjectName).*" "C:\Users\wowsi\AppData\Roaming\HearthstoneDeckTracker\Plugins\TroubleAtTheMill"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

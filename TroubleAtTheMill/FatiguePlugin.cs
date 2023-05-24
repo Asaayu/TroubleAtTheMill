@@ -1,70 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
-using Hearthstone_Deck_Tracker.Plugins;
-using Hearthstone_Deck_Tracker.API;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+using Hearthstone_Deck_Tracker.API;
+using Hearthstone_Deck_Tracker.Enums.Hearthstone;
+using Hearthstone_Deck_Tracker.Plugins;
+using Hearthstone_Deck_Tracker.Utility.Logging;
+using CoreAPI = Hearthstone_Deck_Tracker.API.Core;
 
 namespace TroubleAtTheMill
 {
     public class FatiguePlugin : IPlugin
     {
+        // Font size - % of overlay height
+        internal static double infoFontSize = 0.019;
+
         public string Name => "Trouble at the Mill";
-        public string Description
-            =>
-                "Displays the number of card draws until each player dies from fatigue.";
+        public string Description => "Displays the number of card draws until each player dies from fatigue.";
+        public string ButtonText => "No Settings";
+        public string Author => "realchriscasey (v1), Asaayu (v2)";
+        public Version Version => new Version(2, 0, 0);
+        public MenuItem MenuItem => null;
+        public void OnButtonPress() { }
 
-        public string ButtonText => "DO NOT PUSH THIS BUTTON!";
-        public string Author => "realchriscasey";
-        public Version Version => new Version(1, 0, 0);
-        public System.Windows.Controls.MenuItem MenuItem => null;        
+        internal static Label playerDrawCount;
+        internal static Label opponentDrawCount;       
 
-        private List<UIElement> _displayElements;
-        private List<FatigueCalculator> _calculators;
-
-        void IPlugin.OnButtonPress()
+        public void OnLoad()
         {
-            /*NOP*/
+            playerDrawCount = CreateDrawLabel();
+            opponentDrawCount = CreateDrawLabel();
+
+            GameEvents.OnGameStart.Add(FatigueCalculator.OnGameStart);
+            GameEvents.OnGameEnd.Add(FatigueCalculator.OnGameEnd);
         }
 
-        void IPlugin.OnLoad()
+        public void OnUnload()
         {
-            _displayElements = new List<UIElement>();
-            _calculators = new List<FatigueCalculator>();
-
-            newCalculator(true);
-            newCalculator(false);
+            FatigueCalculator.OnGameEnd();
         }
 
-        private void newCalculator(bool isLocal)
+        public void OnUpdate()
         {
-            FatigueDisplay display = new FatigueDisplay(isLocal);
-            Core.OverlayCanvas.Children.Add(display);
-            _displayElements.Add(display);
-
-            FatigueCalculator fatigueCalculator = new FatigueCalculator(display, isLocal);
-            _calculators.Add(fatigueCalculator);
-
-            GameEvents.OnGameStart.Add(fatigueCalculator.GameStart);
-            GameEvents.OnInMenu.Add(fatigueCalculator.InMenu);
+            FatigueCalculator.OnGameUpdate();
         }
 
-        void IPlugin.OnUnload()
+        private static Label CreateDrawLabel()
         {
-            foreach (UIElement element in _displayElements)
+            return new Label
             {
-                Core.OverlayCanvas.Children.Remove(element);
-            }
-            _displayElements.Clear();
-            _calculators.Clear(); //this probably memory leaks. not sure how to clean up the calculators from the notifications
-        }
-
-        //I wish there was an easy way to hook '# of cards in deck' and 'health' changes directly.
-        void IPlugin.OnUpdate()
-        {
-            foreach (FatigueCalculator calculator in _calculators)
-            {
-                calculator.Update();
-            }
+                FontWeight = FontWeights.Bold,
+                FontSize = CoreAPI.OverlayWindow.Height * infoFontSize,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Effect = new DropShadowEffect
+                {
+                    Color = Colors.Black,
+                    Direction = 315,
+                    ShadowDepth = 0,
+                    Opacity = 1,
+                    BlurRadius = 5,
+                    RenderingBias = RenderingBias.Quality,
+                },
+                Padding = new Thickness(5) // Add padding to create space between the text and shadow
+            };
         }
     }
 }
