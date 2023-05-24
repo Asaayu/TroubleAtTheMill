@@ -1,6 +1,6 @@
-# Trouble at the Mill v2
+# HDT Plugin TroubleAtTheMill v2
 
-An updated version of the original plugin for [Hearthstone Deck Tracker](https://hsdecktracker.net/) that keeps track of the number of times a player can draw cards before dying from fatigue damage.
+An updated version of the original plugin Trouble At The Mill (TATM) for [Hearthstone Deck Tracker](https://hsdecktracker.net/) that keeps track of the number of times a player can draw cards before dying from fatigue damage.
 
 ## Version 2 Changes
 - Completely new UI
