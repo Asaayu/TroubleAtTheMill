@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,6 +23,9 @@ namespace TroubleAtTheMill
             Opponent = CoreAPI.Game.Opponent;
             PlayerHero = Player.Board.FirstOrDefault(x => x.IsHero);
             OpponentHero = Opponent.Board.FirstOrDefault(x => x.IsHero);
+
+            // Skip if the canvas already contains the labels
+            if (CoreAPI.OverlayCanvas.Children.Contains(FatiguePlugin.playerDrawCount)) return;
 
             // Add the two labels to the overlay canvas
             CoreAPI.OverlayCanvas.Children.Add(FatiguePlugin.playerDrawCount);
