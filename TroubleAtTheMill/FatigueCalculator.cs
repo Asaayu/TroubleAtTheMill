@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -68,6 +68,10 @@ namespace TroubleAtTheMill
 
             Canvas.SetTop(FatiguePlugin.playerDrawCount, CoreAPI.OverlayCanvas.Height * 0.5);
             Canvas.SetTop(FatiguePlugin.opponentDrawCount, CoreAPI.OverlayCanvas.Height * 0.38);
+
+            // Set the font size of the labels
+            FatiguePlugin.playerDrawCount.FontSize = Math.Max(10, CoreAPI.OverlayCanvas.ActualHeight * FatiguePlugin.infoFontSize);
+            FatiguePlugin.opponentDrawCount.FontSize = Math.Max(10, CoreAPI.OverlayCanvas.ActualHeight * FatiguePlugin.infoFontSize);
         }
 
         internal static int CalculateTotalDraws(bool local)

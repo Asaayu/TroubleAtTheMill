@@ -51,7 +51,6 @@ namespace TroubleAtTheMill
             return new Label
             {
                 FontWeight = FontWeights.Bold,
-                FontSize = CoreAPI.OverlayWindow.Height * infoFontSize,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 Effect = new DropShadowEffect
